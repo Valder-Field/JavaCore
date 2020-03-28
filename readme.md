@@ -7,8 +7,8 @@
 ## [第2章：Java程序设计环境](https://github.com/Valder-Field/JavaCore/blob/master/learning_notes/第2章：Java程序设计环境.md)
 
 ## [第3章：Java的基本程序设计结构](https://github.com/Valder-Field/JavaCore/blob/master/learning_notes/第3章：Java的基本程序设计结构.md)
-### [3.1 一个简单的Java应用程序](/learning_notes/第3章：Java的基本程序设计结构.md#31-一个简单的Java应用程序)
-### [3.2 注释](/learning_notes/第3章：Java的基本程序设计结构.md#32-注释)
+[3.1 一个简单的Java应用程序](/learning_notes/第3章：Java的基本程序设计结构.md#31-一个简单的Java应用程序)
+[3.2 注释](/learning_notes/第3章：Java的基本程序设计结构.md#32-注释)
 ### [3.3 数据类型](/learning_notes/第3章：Java的基本程序设计结构.md#33-数据类型)
 ### [3.4 变量](/learning_notes/第3章：Java的基本程序设计结构.md#34-变量)
 ### [3.5 运算符](/learning_notes/第3章：Java的基本程序设计结构.md#35-运算符)
