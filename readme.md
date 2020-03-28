@@ -8,16 +8,15 @@
 
 ## [第3章：Java的基本程序设计结构](https://github.com/Valder-Field/JavaCore/blob/master/learning_notes/第3章：Java的基本程序设计结构.md)
 ### [3.1 一个简单的Java应用程序](/learning_notes/第3章：Java的基本程序设计结构.md#3.1-一个简单的Java应用程序)
-
-###[3.2 注释](/learning_notes/第3章：Java的基本程序设计结构.md#3.2-注释)
-###[3.3 数据类型](/learning_notes/第3章：Java的基本程序设计结构.md#3.3-数据类型)
-###[3.4 变量](/learning_notes/第3章：Java的基本程序设计结构.md#3.4-变量)
-###[3.5 运算符](/learning_notes/第3章：Java的基本程序设计结构.md#3.5-运算符)
-###[3.6 字符串](/learning_notes/第3章：Java的基本程序设计结构.md#3.6-字符串)
-###[3.7 输入输出](/learning_notes/第3章：Java的基本程序设计结构.md#3.7-输入输出)
-###[3.8 控制流程](/learning_notes/第3章：Java的基本程序设计结构.md#3.8-控制流程)
-###[3.9 大数值](/learning_notes/第3章：Java的基本程序设计结构.md#3.9-大数值)
-###[3.10 数组](/learning_notes/第3章：Java的基本程序设计结构.md#3.10-数组)
+### [3.2 注释](/learning_notes/第3章：Java的基本程序设计结构.md#3.2-注释)
+### [3.3 数据类型](/learning_notes/第3章：Java的基本程序设计结构.md#3.3-数据类型)
+### [3.4 变量](/learning_notes/第3章：Java的基本程序设计结构.md#3.4-变量)
+### [3.5 运算符](/learning_notes/第3章：Java的基本程序设计结构.md#3.5-运算符)
+### [3.6 字符串](/learning_notes/第3章：Java的基本程序设计结构.md#3.6-字符串)
+### [3.7 输入输出](/learning_notes/第3章：Java的基本程序设计结构.md#3.7-输入输出)
+### [3.8 控制流程](/learning_notes/第3章：Java的基本程序设计结构.md#3.8-控制流程)
+### [3.9 大数值](/learning_notes/第3章：Java的基本程序设计结构.md#3.9-大数值)
+### [3.10 数组](/learning_notes/第3章：Java的基本程序设计结构.md#3.10-数组)
 
 
 
