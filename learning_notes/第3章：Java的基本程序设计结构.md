@@ -397,3 +397,57 @@ Java使用条件语句和循环结构确定控制流程
 
 3.10.3 数组拷贝
 
+- 数组变量拷贝给另一个数组变量，本质是：数组引用里的地址相同
+
+  ![image-20200329144052735](第3章：Java的基本程序设计结构.assets/image-20200329144052735.png)
+
+3.10.4 命令行参数
+
+**概念**：每个Java程序都有一个带`String args[]`参数的`main`方法。此参数表明main方法将接受一个字符串数组，即：**命令行参数**
+
+- `args[0]`不是程序名，如：
+
+  ```shell
+  java Message -h world //args[0]是"-h"
+  ```
+
+3.10.5 数组排序
+
+3.10.6 多维数组
+
+声明：`double [][] balances;`
+
+初始化：
+
+- 默认初始化：`balances = new double[NYEARS][nRATES];`
+
+- 简化初始化：
+
+  ```java
+  int [][] magicSquare =
+  {
+      {16, 3, 2, 13},
+      {5, 10, 7, 12},
+      {9, 6, 7, 12},
+      {4, 15, 14, 1}
+  }
+  ```
+
+快速打印二维数组元素：
+
+- `System.out.println(Arrays.deepToString(a))`
+
+for each打印二维数组
+
+```java
+for(double[] row : a) // 获取一维数组首地址（引用）
+    for(double value : row) // 打印一维数组
+        do something with value
+```
+
+3.10.7 不规则数组
+
+- 所有二维数组都是：数组的数组
+  ![image-20200329151013530](第3章：Java的基本程序设计结构.assets/image-20200329151013530.png)
+
+- Java中：可构造不规则数组，即：数组的每一行可有不同的长度
