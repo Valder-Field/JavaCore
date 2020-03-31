@@ -6,11 +6,11 @@
 
 # 按章节笔记目录
 
-## [第1章：Java程序设计概述](https://github.com/Valder-Field/JavaCore/blob/master/learning_notes/第1章：Java程序设计概述.md)
+## [第1章：Java程序设计概述](/learning_notes/第1章：Java程序设计概述.md)
 
-## [第2章：Java程序设计环境](https://github.com/Valder-Field/JavaCore/blob/master/learning_notes/第2章：Java程序设计环境.md)
+## [第2章：Java程序设计环境](/learning_notes/第2章：Java程序设计环境.md)
 
-## [第3章：Java的基本程序设计结构](https://github.com/Valder-Field/JavaCore/blob/master/learning_notes/第3章：Java的基本程序设计结构.md)
+## [第3章：Java的基本程序设计结构](/learning_notes/第3章：Java的基本程序设计结构.md)
 
 [3.1 一个简单的Java应用程序](/learning_notes/第3章：Java的基本程序设计结构.md#31-一个简单的Java应用程序)
 
@@ -32,6 +32,27 @@
 
 [3.10 数组](/learning_notes/第3章：Java的基本程序设计结构.md#310-数组)
 
+## [第4章：对象与类](/learning_notes/第4章：对象与类.md)
+
+[4.1 面向对象程序设计概述](/learning_notes/第4章：对象与类.md#41-面向对象程序设计概述)
+
+[4.2 使用预定义类](/learning_notes/第4章：对象与类.md#42-使用预定义类)
+
+[4.3 用户自定义类](/learning_notes/第4章：对象与类.md#43-用户自定义类)
+
+[4.4 静态域与静态方法](/learning_notes/第4章：对象与类.md#44-静态域与静态方法)
+
+[4.5 方法参数](/learning_notes/第4章：对象与类.md#45-方法参数)
+
+[4.6 对象构造](/learning_notes/第4章：对象与类.md#46-对象构造)
+
+[4.7 包](/learning_notes/第4章：对象与类.md#47-包)
+
+[4.8 类路径](/learning_notes/第4章：对象与类.md#48-类路径)
+
+[4.9 文档注释](/learning_notes/第4章：对象与类.md#49-文档注释)
+
+[4.10 类设计技巧](/learning_notes/第4章：对象与类.md#410-类设计技巧)
 
 
 # 重点内容
