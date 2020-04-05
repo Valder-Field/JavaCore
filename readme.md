@@ -54,6 +54,26 @@
 
 [4.10 类设计技巧](/learning_notes/第4章：对象与类.md#410-类设计技巧)
 
+## [第5章：继承](/learning_notes/第5章：继承.md)
+
+[5.1 类、超类和子类](/learning_notes/第5章：继承.md#51-类、超类和子类)
+
+[5.2 Object：所有类的超类](/learning_notes/第5章：继承.md#52-Object：所有类的超类)
+
+[5.3 泛型数组列表](/learning_notes/第5章：继承.md#53-泛型数组列表)
+
+[5.4 对象包装器与自动装箱](/learning_notes/第5章：继承.md#54-对象包装器与自动装箱)
+
+[5.5 参数数量可变的方法](/learning_notes/第5章：继承.md#55-参数数量可变的方法)
+
+[5.6 枚举类](/learning_notes/第5章：继承.md#56-枚举类)
+
+[5.7 反射](/learning_notes/第5章：继承.md#57-反射)
+
+[5.8 继承的设计技巧](/learning_notes/第5章：继承.md#58-继承的设计技巧)
+
+## [第6章：接口、lambda表达式与内部类](/learning_notes/第6章：接口、lambda表达式与内部类.md)
+
 
 # 重点内容
 
