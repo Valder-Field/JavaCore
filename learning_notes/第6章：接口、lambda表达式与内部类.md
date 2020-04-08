@@ -192,21 +192,178 @@ class Student extends Person implements Named{
 
 6.2.1 接口与回调
 
-
+回调（callback）是一种常见的程序设计模式，可以指出某个特定事件发生时应该采取的动作。
 
 6.2.2 Comparator接口
 
+1）当自带的`java.lang.Comparable`接口无法满足新的排序需求时，可用外部比较器（`java.util.Comparator`）实现新的排序需求。
 
+2）两个接口使用对比
+
+使用Comparable接口前提：
+
+- **类对象数组**需要排序，则**类**必须实现Comparable接口
+
+使用Comparator接口：
+
+- 新建一个比较器类，并实现Comparator接口。实例化一个比较器对象，用于排序
+
+  ```java
+  public class ComparatorTest {
+  
+  	public static void main(String[] args) {
+  		// 外部比较器对象
+  		Comparator<String> comp = new LengthComparator();
+          // 单独比较
+  		System.out.println(comp.compare("123", "3456"));
+  		// 对象数组比较
+  		String[] str = {"123,", "332432", "1"};
+  		Arrays.sort(str, comp);
+          // print
+  		for (String string : str) {
+  			System.out.print(string + " ");
+  		}
+  	}
+  }
+  
+  class LengthComparator implements Comparator<String>{
+  	@Override
+  	public int compare(String o1, String o2) {
+  		// TODO Auto-generated method stub
+  		return o1.length() - o2.length();
+  	}
+  }
+  ```
 
 6.2.3 对象克隆
+
+1）普通的为一个**包含对象引用的变量**建立副本时，直接进行引用的赋值，原变量和副本都是同一个对象的引用。任何一个变量改变都会影响另一个变量。
+
+```java
+Employee original = new Employe("John Public", 50000);
+Employee copy = original;
+copy.raiseSalary(10); // oops--also changed original
+```
+
+![image-20200408161721672](第6章：接口、lambda表达式与内部类.assets/image-20200408161721672.png)
+
+如果希望copy是一个新对象，它的初始状态与original相同，但之后它们各自会有自己不同的状态，则可以使用clone方法
+
+2）浅拷贝。clone方法是Object的一个protected方法，不能直接调用。由于所有自定义类都是Object的子类，可通过子类对象调用。子类对象调用clone方法的流程（Object实现clone的流程）
+
+- Object对子类对象一无所知，所以只能逐个域地进行拷贝。对于基本数据类型属性，直接拷贝值，但**对于引用类型数据**，直接拷贝对象的引用，这样原对象和克隆的对应仍然会共享引用类型的属性。
+
+  ![image-20200408162359640](第6章：接口、lambda表达式与内部类.assets/image-20200408162359640.png)
+
+  ![image-20200408162417681](第6章：接口、lambda表达式与内部类.assets/image-20200408162417681.png)
+
+由上述可知，Object对象的Clone方法，默认的是“浅拷贝”，即：基本数据类型拷贝值，引用类型拷贝引用，不建立新的引用类型对象。但“浅拷贝”也有一定的好处，可根据需求要不要实现“深拷贝”。浅拷贝的好处，共享安全。
+
+![image-20200408162650025](第6章：接口、lambda表达式与内部类.assets/image-20200408162650025.png)
+
+3）Cloneable接口。
+
+- Cloneable接口是Java中提供的一组标记接口（tagging interface）之一。其内不包含任何方法，唯一的作用是：允许在类型查询中使用instanceof。
+
+  非标记接口，如：Comparable等接口，通常是用于确保一个类实现一个或一组特定的方法。
+
+- 无论是浅拷贝还是深拷贝**都必须实现Cloneable接口**，且将从Object继承过来的clone设置为：**public**
+
+4）深拷贝
+
+```java
+class Employee implements Cloneable{ // 必须实现Cloneable接口
+    ...
+    public Employee clone() throws CloneNotSupportedException{
+        // call Object.clone() 【使用Object.clone，拷贝基本数据类型】
+        Employee cloned = (Employee)super.clone();
+        
+        // clone mutable fields【拷贝引用类型数据】
+        cloned.hireDay = (Date)hireDay.clone();// hireDay属性Date类，其已经实现了Cloneable接口
+        
+        return cloned;
+    }
+}
+```
 
 # 6.3 lambda表达式
 
 6.3.1 为什么引入lambda表达式
 
+1）将一个代码块传递到某个对象，这个代码块会在将来某个时间调用。到目前为止，在Java中**不能直接传递代码段**，Java是一种面向对象语言，**所以必须构造一个对象，这个对象的类需要有一个方法能包含所需的代码段**。代码段示例：
+
+```java
+class LengthComparator implements Comparator<String>{
+    public int compare(String first, String second){
+        return first.length() - seconde.length();
+    }
+}
+...
+Arrays.sort(strings, new LengthComparator())//new LengthComparator()本质为传递一个代码段
+```
+
+为解决上述必须构造一个对象传入代码块的方式，Java引入了lambda表达式，以一种简洁的语法定义代码块。
+
 6.3.2 lambda表达式的语法
 
+**lambda表达式就是一个代码块，以及必须传入代码的变量规范**
+
+1）为什么起这个名字？带**参数变量的表达式**就称为lambda表达式
+
+2）lambda表达式形式
+
+```java
+(参数1，参数2) ->
+{ // 表达式1行时，{}可省略
+	表达式
+}
+```
+
+特殊用法：
+
+- 即使lambda表达式没有参数，仍然要提供空括号，就像无参数方法一样
+
+  ```java
+  () -> 
+  {
+      for(int i = 100; i >= 0; i--) 
+         System.out.println(i);
+  }
+  ```
+
+- 如果可以推导出一个lambda表达式的参数类型，则可以忽略其类型
+
+  ```java
+  // 因为此lambda表达式将赋值给一个字符串比较器，所以编译器可以推导出first和second必然是字符串
+  Comparator<String> comp = (first, second) // same as (String first, String second)
+      -> first.length() - second.length();
+  ```
+
+- 如果方法只有一个参数，且此参数类型可以推导得出，则**可以省略小括号**
+
+  ```java
+  ActionListener listener = event ->
+      // Instead of (event) -> . . . or (ActionEvent event) -> . . .
+  	System.out.println("The time is " + new Date()"); 
+  ```
+
+特别注意：
+
+- 无需指定lambda表达式的返回类型，返回类型总是会由上下文推导得出，如：
+
+```java
+(String first, String second) -> first.length() - second.length()
+```
+
+- 如果一个 lambda 表达式只在某些分支返回一个值， 而在另外一些分支不返回值，这是不合法的。
+
+```java
+(int x)-> { if(x >= 0) return 1; } // 不合法
+```
+
 6.3.3 函数式接口
+
+
 
 6.3.4 方法引用
 
