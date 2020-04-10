@@ -363,15 +363,84 @@ Arrays.sort(strings, new LengthComparator())//new LengthComparator()本质为传
 
 6.3.3 函数式接口
 
+1）函数式接口（functional interface）：对于只有一个抽象方法的接口，**需要这种接口的对象时**，可以不定义对应类，直接使用lambda表达式，这种接口叫做函数式接口。
 
+2）提示：
+
+- 把lambda 表达式看作是一个函数，而不是一个对象
+-  lambda 表达式可转换为函数式接口（想要对象，不创建新类，直接用lambda表达式）
+
+3）函数式接口的包：`java.util.function`
 
 6.3.4 方法引用
 
+1）方法引用（method reference）：顾名思义，对方法的一个引用，可以把方法想成一个对象，引用这个对象就可以使用它的功能方法了。所以方法引用的功能是：使用现有方法实现传递代码，进而减少类的创建，简化语法（等价于使用lambda表达式）
+
+```java
+Timer t = new Timer(1000, event -> System.out.println(event));
+
+// 方法引用：System.out::println
+// 等价于：lambda表达式 x/event -> System.out.println(x/event)
+Timer t = new Timer(1000, System.out::println);
+```
+
+2）如何使用方法引用
+
+- 对象/类名`::`方法名
+
+![image-20200410173012714](第6章：接口、lambda表达式与内部类.assets/image-20200410173012714.png)
+
 6.3.5 构造器引用
+
+1）构造器引用与方法引用很类似，区别在于：方法名为：new。如：`Person::new`是Person类构造器的一个引用。
 
 6.3.6 变量作用域
 
+```java
+public static void repeatMessage(String text, int delay){
+    ActionListener listener = event ->{
+        System.out.println(text);
+        Toolkit.getDefaultTookit().beep();                             };
+   new Timer(delay, listener).start();
+}
+```
+
+```java
+//调用
+repeatMessage("Hello", 1000); // print Hello every 1,000 milliseconds
+```
+
+1）Java中lambda表达式是**闭包（closure）**，其结构为：
+
+- 一个代码块
+
+- 参数
+
+- 最终自由变量（非代码块中、非参数的值不会改变的变量）
+
+  > 如：text="Hello"。非参数且不在代码块中定义的最终变量（effectively final），即：此变量初始化之后就不会再为它赋新值，类似于常量。
+
+2）底层实现：**lambda表达式转换为包含一个方法的对象**，自由变量的值会复制到这个对象的实例变量中，被lambda表达式捕获（captured）。
+
+3）在一个 lambda 表达式中使用 this关键字时，是指创建这个 lambda 表达式的方法的 this参数，即：包含此方法的类的实例对象的this，非lambda表达式拥有this
+
+```java
+public class Application{
+    public void init(){
+        ActionListener listener = event ->{
+            System.out.println(this.toString());
+            ...
+        }
+        ...
+    }
+}
+```
+
+表达式this.toString()调用的是Application对象的toString()方法
+
 6.3.7 处理lambda表达式
+
+
 
 6.3.8 再谈Comparator
 
