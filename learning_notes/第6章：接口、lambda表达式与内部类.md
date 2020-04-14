@@ -363,7 +363,48 @@ Arrays.sort(strings, new LengthComparator())//new LengthComparator()本质为传
 
 6.3.3 函数式接口
 
-1）函数式接口（functional interface）：对于只有一个抽象方法的接口，**需要这种接口的对象时**，可以不定义对应类，直接使用lambda表达式，这种接口叫做函数式接口。
+1）函数式接口（functional interface）：对于只有一个抽象方法的接口，**需要这种接口的对象时**，可以**不定义对应类**，**直接使用lambda表达式**，==这种接口叫做函数式接口==。
+
+**简而言之**：可以用lambda表达式**代替**实现接口类对象的接口为函数式接口，用lambda表达式代替实例对象执行对应方法。
+
+```java
+class A implement Runnable{
+    public void run(){
+		// 方法执行
+    }
+}
+
+class Test{
+    public static void repeat(int n, Runnable action){
+		for(int i = 0; i < n; i++){
+        	action.run();
+    }
+        
+    public void main(String[] args){
+        A a = new A();
+        // 常规方式:调用run()方法
+        repeat(10, a); 
+        // 使用lambda表达式调用run()方法
+        // 【核心】简化了语法: lambda表达式体 等于 实现接口的类的方法体
+        repeat(10, i -> System.out.println("Countdown: " + (9 - i)));
+    }
+}
+```
+
+再如：
+
+```java
+public static void repeat(int n, Runnable action){
+    for(int i = 0; i < n; i++){
+        action.run();
+    }
+}
+
+// Runnable函数式接口，可用lambda表达式 代替 实例对象.方法，直接使用接口
+// 调用action.run()时会执行lambda表达式主体:
+// System.out.println("Hello, World!")
+repeat(10, () -> System.out.println("Hello, World!"));
+```
 
 2）提示：
 
@@ -374,7 +415,9 @@ Arrays.sort(strings, new LengthComparator())//new LengthComparator()本质为传
 
 6.3.4 方法引用
 
-1）方法引用（method reference）：顾名思义，对方法的一个引用，可以把方法想成一个对象，引用这个对象就可以使用它的功能方法了。所以方法引用的功能是：使用现有方法实现传递代码，进而减少类的创建，简化语法（等价于使用lambda表达式）
+1）方法引用（method reference）：顾名思义，对方法的一个引用，可以把方法想成一个对象，引用这个对象就可以使用它的功能方法了。
+
+所以**方法引用的作**用：使用现有方法实现传递代码，进而**减少类的创建**，简化语法（==等价于使用lambda表达式==）
 
 ```java
 Timer t = new Timer(1000, event -> System.out.println(event));
@@ -440,15 +483,122 @@ public class Application{
 
 6.3.7 处理lambda表达式
 
+1）把lambda表达式**传递到**需要一个函数式接口的**方法**（编写方法处理lambda表达式）
 
+2）使用lambda表达式的重点是延迟执行（deferred exectuion），若需要立即执行，可不需要lambda表达式，希望延迟执行的原因：
+
+![image-20200414173839343](第6章：接口、lambda表达式与内部类.assets/image-20200414173839343.png)
+
+3）示例：冲一个动作n次
+
+```java
+public static void repeat(int n, Runnable action){
+    for(int i = 0; i < n; i++){
+        action.run();
+    }
+}
+
+// 调用action.run()时会执行lambda表达式主体：
+// System.out.println("Hello, World!")
+repeat(10, () -> System.out.println("Hello, World!"));
+```
+
+4）函数式接口
+
+![image-20200414175006333](第6章：接口、lambda表达式与内部类.assets/image-20200414175006333.png)
+
+![image-20200414175020047](第6章：接口、lambda表达式与内部类.assets/image-20200414175020047.png)
 
 6.3.8 再谈Comparator
 
+1）回顾：lambda表达式和方法引用有相同功能，简化语法！
+
+2）Comparator接口包含很多方便的静态方法来创建比较器，这些方法可以用于lambda表达式或方法引用。
+
+```java
+// 例1：假设有一个Person对象数组，按名字对这些对象排序
+Array.sort(people, Comparator.comparing(Person::getName));
+
+// 例2：根据人名长度排序
+Arrays.sort(people, Comparator.comparing(Person::getName), 
+           (s, t) -> Integer.Compare(s.length(), t.length()));
+```
+
 # 6.4 内部类
+
+内部类（inner class）是定义在另一个类中的类。
+
+Q：为什么要使用内部类？
+
+A：主要原因
+
+![image-20200414183021298](第6章：接口、lambda表达式与内部类.assets/image-20200414183021298.png)
+
+章节设置：
+
+![image-20200414183103281](第6章：接口、lambda表达式与内部类.assets/image-20200414183103281.png)
 
 6.4.1 使用内部类访问对象状态
 
+```java
+class TalkingClock{
+	private int interval;
+	private boolean beep;
+	
+	/**
+	 * Constructs a talking clock
+	 */
+	public TalkingClock(int interval, boolean beep) {
+		this.interval = interval;
+		this.beep = beep;
+	}
+	
+	/**
+	 * Starts the clock.
+	 */
+	public void start() {
+		ActionListener listener = new TimePrinter();
+		Timer t = new Timer(interval, listener);
+		t.start();
+	}
+	
+    // 内部类
+	public class TimePrinter implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("At the tone, the time is "
+					+ new Date());
+			if (beep) {
+				Toolkit.getDefaultToolkit().beep();
+			}
+		}
+	}
+}
+```
+
+1）内部类可以访问：
+
+- 自身的属性
+- 创建它的外围类的属性
+
+2）内部类对象总有一个隐式引用，它指向了创建它的外部类对象，如图：
+
+![image-20200414203849953](第6章：接口、lambda表达式与内部类.assets/image-20200414203849953.png)
+
+```java
+// 将外围类对象的引用称为:outer
+public void actionPerformed(ActionEvent e) {
+    // TODO Auto-generated method stub
+    System.out.println("At the tone, the time is " + new Date());
+    if (outer.beep) { //
+        Toolkit.getDefaultToolkit().beep();
+    }
+}
+```
+
 6.4.2 内部类的特殊语法规则
+
+
 
 6.4.3 内部类是否有用、必要和安全
 
