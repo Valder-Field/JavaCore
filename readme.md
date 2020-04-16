@@ -76,7 +76,15 @@
 
 [6.1 接口](/learning_notes/第6章：接口、lambda表达式与内部类.md#61-接口)
 
+[6.2 接口示例](/learning_notes/第6章：接口、lambda表达式与内部类.md#62-接口示例)
 
+[6.3 lambda表达式](/learning_notes/第6章：接口、lambda表达式与内部类.md#63-lambda表达式)
+
+[6.4 内部类](/learning_notes/第6章：接口、lambda表达式与内部类.md#64-内部类)
+
+[6.5 代理](/learning_notes/第6章：接口、lambda表达式与内部类.md#65-代理)
+
+## [第7章：异常、断言和日志](/learning_notes/第7章：异常、断言和日志.md)
 
 
 
