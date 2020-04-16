@@ -598,25 +598,248 @@ public void actionPerformed(ActionEvent e) {
 
 6.4.2 内部类的特殊语法规则
 
-
+```java
+// outerObject.new InnerClass(construction parameters) 方式构造对象
+TalkingClock jabberer = new TalkingClock(1000, true);
+TalkingClock.TimePrinter listener = jabberer.new TimePrinter();
+```
 
 6.4.3 内部类是否有用、必要和安全
 
+1）编译器把内部类翻译成用`$`（美元符号）分隔外部类名与内部类名的常规类文件。如：
+
+![image-20200416160636266](第6章：接口、lambda表达式与内部类.assets/image-20200416160636266.png)
+
 6.4.4 局部内部类
+
+1）局部类，在**方法中**定义的类
+
+```java
+public void start(){
+    class TimePrinter implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            System.out.println("At the tone, the time is " + new Date());
+            if(beep){
+                Tookit.getDefaultToolkit().beep();
+            }
+        }
+    }
+}
+```
+
+2）局部类不能用public或private修饰，它的作用域被限定在声明这个局部类的块中。
+
+3）局部类的优势，对外部世界可以完全地隐藏起来，如：TalkingClock类中的其他代码不能访问它，除了start方法外，没有任何方法直到TimePrinter类的存在。
 
 6.4.5 由外部方法访问变量
 
+1）局部类：不仅能访问包含它们的外部类，还可以引用访问`final`修饰的局部变量
+
 6.4.6 匿名内部类
+
+1）只创建某类的一个对象，可使用匿名内部类（anonymous inner class）
+
+```java
+// 创建一个实现 ActionListener 接口的类的新对象，需要实现的方法 actionPerformed定义在括号{}内
+public void start(int interval, boolean beep) {
+	ActionListener listener = new ActionListener(){
+		public void actionPerformed(ActionEvent event) {
+			System.out.println("At the tone, the time is " + new Date());
+			if (beep) 
+                Toolkit.getDefaultToolkit().beep(); 
+        } 
+    };
+	Timer t = new Timer(interval, listener); 
+	t.start();
+}
+```
+
+2）匿名类语法格式
+
+```java
+// SuperType 可以是 ActionListener 这样的接口，于是内部类就要实现这个接口。
+// SuperType 也可以是一个类，于是内部类就要扩展它。
+new SuperType(construction parameters) {
+	inner class methods and data
+}
+```
 
 6.4.7 静态内部类
 
+1）使用内部类时，只需：把一个类隐藏在另一个类的内部，并不需要内部类**引用**外部类对象时，可将内部类声明为static，以便取消产生的引用。
+
+2）静态内部类的对象除了**没有对生成它的外围类对象的引用**特权外，与其他类所有内部类完全一样。静态内部类可以有静态域和方法。
+
+```java
+package com.ch06.staticInnerClass;
+
+public class StaticInnerClassTest {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		double[] d = new double[20];
+		for(int i = 0; i < d.length; i++) {
+			d[i] = 100 * Math.random();
+			ArrayAlg.Pair p = ArrayAlg.minmax(d);
+			System.out.println("min = " + p.getFirst());
+			System.err.println("max = " + p.getSecond());
+		}
+	}
+}
+
+class ArrayAlg{
+	/**
+	 * A pair of floating-point numbers
+	 */
+	public static class Pair{
+		private double first;
+		private double second;
+		
+		public Pair(double f, double s) {
+			first = f;
+			second = s;
+		}
+		
+		public double getFirst() {
+			return first;
+		}
+		
+		public double getSecond() {
+			return second;
+		}
+	}
+	
+	public static Pair minmax(double[] values) {
+		double min = Double.POSITIVE_INFINITY;
+		double max = Double.NEGATIVE_INFINITY;
+		
+		for(double v : values) {
+			if (min > v) min = v;
+			if (max < v) max = v;
+		}
+		return new Pair(min, max);
+	}
+}
+```
+
 # 6.5 代理
+
+代理（proxy）
+
+- 功能：利用代理可以在运行时创建一个实现了一组给定接口的新类。
+- 使用场景：在编译时无法确定需要实现哪个接口时才使用
 
 6.5.1 何时使用代理
 
+1）代理类可以在运行时创建全新的类
+
+2）何时使用？
+
+![image-20200416173738248](第6章：接口、lambda表达式与内部类.assets/image-20200416173738248.png)
+
 6.5.2 创建代理对象
+
+1）创建代理对象的方法:`newProxyInstance`
+
+![image-20200416173304961](第6章：接口、lambda表达式与内部类.assets/image-20200416173304961.png)
+
+```java
+Object proxy = Proxy.newProxyInstance(null, 
+					new Class[] {Comparable.class}, handler);
+```
+
+2）如何定义一个调用处理器？
+
+- 定义一个实现`InvocationHandler`的类，并重新写`invoke`方法
+
+```java
+/**
+ * An invocation handler that prints out the method name and parameters,
+ * then invokes the original method
+ */
+class TraceHandler implements InvocationHandler{
+    // 代理对象的value
+	private Object target;
+	
+	/**
+	 * Constructs a TraceHandler
+	 */
+	public TraceHandler(Object t) {
+		target = t;
+	}
+	
+	public Object invoke(Object proxy, Method m, Object[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		// print implicit argument
+		System.out.print(target);
+		// print method name
+		System.out.print("." + m.getName() + "(");
+		// print explicit arguments
+		if(args != null) {
+			for(int i = 0; i < args.length; i++) {
+				System.out.print(args[i]);
+				if(i < args.length - 1) {
+					System.out.println(", ");
+				}
+			}
+		}
+		System.out.println(")");
+		
+		// invoke actual method
+		return m.invoke(target, args);
+	}
+}
+```
+
+```java
+public class ProxyTest {
+	public static void main(String[] args) {
+		Object[] elements = new Object[1000];
+        
+		// fill elements with proxies for the integers 1 ...
+        // 创建代理对象
+		for(int i = 0; i < elements.length; i++) {
+			Integer value = i + 1;
+			InvocationHandler handler = new TraceHandler(value);
+			Object proxy = Proxy.newProxyInstance(null, 
+					new Class[] {Comparable.class}, handler);
+			elements[i] = proxy;
+		}
+		
+		// construct a random integer
+		Integer key = new Random().nextInt(elements.length) + 1;
+		
+		// search for the key
+		int result = Arrays.binarySearch(elements, key);
+		
+		// print match if found
+		if(result >= 0) {
+			System.out.println(elements[result]);
+		}
+	}
+}
+```
 
 6.5.3 代理类的特性
 
+1）代理类是在程序运行过程中创建的
 
+2）所有代理类都扩展与Proxy类
+
+3）所有代理方法仅仅调用了调用处理器的invoke
+
+```java
+/**
+ * An invocation handler that prints out the method name and parameters,
+ * then invokes the original method
+ */
+class TraceHandler implements InvocationHandler{
+  	...
+    // 自定义代理方法
+	public Object invoke(Object proxy, Method m, Object[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		// invoke actual method
+        // 调用内置处理器的invoke
+		return m.invoke(target, args);
+	}
+}
+```
 
