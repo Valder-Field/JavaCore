@@ -74,6 +74,12 @@
 
 ## [第6章：接口、lambda表达式与内部类](/learning_notes/第6章：接口、lambda表达式与内部类.md)
 
+[6.1 接口](/learning_notes/第6章：接口、lambda表达式与内部类.md#61-接口)
+
+
+
+
+
 
 # 重点内容
 
